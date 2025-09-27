@@ -1,36 +1,195 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 AirQR - Modern QR Code Generator
 
-## Getting Started
+A secure, fast, and privacy-focused QR code generator built with Next.js 15, TypeScript, and Tailwind CSS. Generate QR codes instantly with advanced customization options, batch processing, and history tracking.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Core Functionality
+
+- **🎯 Multiple QR Types**: URL, Text, Email, Phone, SMS, WiFi, vCard
+- **🎨 Full Customization**: Colors, sizes, error correction levels, margins
+- **📱 Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- **🌙 Dark/Light Theme**: Automatic system detection with manual toggle
+- **⚡ Real-time Preview**: Instant QR code generation as you type
+
+### Advanced Features
+
+- **📚 History Tracking**: Automatic saving of generated QR codes
+- **🔄 Batch Generation**: Create multiple QR codes and download as ZIP
+- **📁 CSV Import**: Upload CSV files for bulk QR code generation
+- **💾 Multiple Formats**: PNG, SVG download options
+- **📋 Easy Sharing**: Copy text, share QR codes natively
+
+### Security & Privacy
+
+- **🔒 Client-side Processing**: No data sent to servers
+- **🛡️ Content Security Policy**: Strict CSP headers for security
+- **🚫 Input Sanitization**: XSS protection and validation
+- **⚖️ Rate Limiting**: Protection against abuse
+- **🔐 Secure Headers**: HSTS, X-Frame-Options, and more
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **QR Generation**: QRCode.js
+- **Theme**: next-themes
+- **Icons**: Lucide React
+- **File Handling**: file-saver, JSZip
+- **Validation**: Zod + React Hook Form
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18.17 or later
+- npm, yarn, or pnpm
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/airqr.git
+   cd airqr
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Set up environment variables** (optional)
+
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configurations
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+5. **Open your browser**
+   Visit [http://localhost:3000](http://localhost:3000)
+
+## 📖 Usage
+
+### Basic QR Code Generation
+
+1. Select the QR code type (URL, Text, Email, etc.)
+2. Enter your content
+3. Customize appearance (colors, size, error correction)
+4. Download or share your QR code
+
+### Batch Generation
+
+1. Switch to the "Batch" tab
+2. Add multiple items manually or upload a CSV file
+3. Customize base options
+4. Generate and download all QR codes as a ZIP file
+
+### CSV Format for Batch Import
+
+```csv
+text,filename
+https://example.com,example-website
+Hello World,greeting-message
+john@example.com,contact-email
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example` for all available configuration options.
 
-## Learn More
+### Security Configuration
 
-To learn more about Next.js, take a look at the following resources:
+The app includes several security measures:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Content Security Policy (CSP)
+- Rate limiting for API routes
+- Input sanitization and validation
+- Secure HTTP headers
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Build & Deploy
 
-## Deploy on Vercel
+### Build for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Deploy to Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Deploy to Other Platforms
+
+The app is a standard Next.js application and can be deployed to:
+
+- Netlify
+- AWS Amplify
+- Railway
+- Render
+- Self-hosted with PM2
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+### Code Standards
+
+- Use TypeScript for all new code
+- Follow the existing code style
+- Run `npm run lint` before submitting
+- Ensure all tests pass
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/) - The React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Lucide](https://lucide.dev/) - Beautiful icons
+- [QRCode.js](https://github.com/soldair/node-qrcode) - QR code generation
+- [Vercel](https://vercel.com/) - Deployment platform
+
+## 📞 Support
+
+- 📧 Email: support@airqr.dev
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/airqr/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/airqr/discussions)
+
+---
+
+<div align="center">
+  <strong>Made with ❤️ by the AirQR Team</strong>
+  <br>
+  <sub>Privacy-focused • Open Source • Modern</sub>
+</div>
