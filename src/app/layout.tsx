@@ -8,9 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AirQR - Modern QR Code Generator",
+  title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
   description:
-    "Generate secure, customizable QR codes instantly. Modern, fast, and privacy-focused QR code generator with advanced customization options.",
+    "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
   keywords: [
     "QR code",
     "generator",
@@ -18,19 +18,25 @@ export const metadata: Metadata = {
     "customizable",
     "modern",
     "privacy",
+    "Muhammad Muzammil",
   ],
-  authors: [{ name: "AirQR Team" }],
+  authors: [
+    { name: "Muhammad Muzammil", url: "https://m-muzammil.vercel.app" },
+  ],
   robots: "index, follow",
   openGraph: {
-    title: "AirQR - Modern QR Code Generator",
-    description: "Generate secure, customizable QR codes instantly",
+    title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
+    description:
+      "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
     type: "website",
     locale: "en_US",
+    url: "https://airqr.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AirQR - Modern QR Code Generator",
-    description: "Generate secure, customizable QR codes instantly",
+    title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
+    description:
+      "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
   },
 };
 

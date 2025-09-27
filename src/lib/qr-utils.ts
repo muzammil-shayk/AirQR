@@ -1,11 +1,12 @@
 import QRCode from "qrcode";
 import { saveAs } from "file-saver";
-import { QRCodeOptions } from "@/types/qr";
 
-export async function generateQRCode(options: QRCodeOptions): Promise<string> {
+export async function generateQRCode(options: {
+  text: string;
+}): Promise<string> {
   try {
-    const qrOptions = {
-      errorCorrectionLevel: options.errorCorrectionLevel,
+    const qrOptions: QRCode.QRCodeToDataURLOptions = {
+      errorCorrectionLevel: "M", // Fixed error correction
       margin: 4, // Fixed margin
       color: {
         dark: "#000000", // Fixed colors
@@ -21,12 +22,12 @@ export async function generateQRCode(options: QRCodeOptions): Promise<string> {
   }
 }
 
-export async function generateQRCodeSVG(
-  options: QRCodeOptions
-): Promise<string> {
+export async function generateQRCodeSVG(options: {
+  text: string;
+}): Promise<string> {
   try {
-    const qrOptions = {
-      errorCorrectionLevel: options.errorCorrectionLevel,
+    const qrOptions: QRCode.QRCodeToStringOptions = {
+      errorCorrectionLevel: "M", // Fixed error correction
       margin: 4, // Fixed margin
       color: {
         dark: "#000000", // Fixed colors
@@ -135,16 +136,4 @@ export function formatBytes(bytes: number): string {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-}
-
-export function getQRCodeCapacity(
-  errorCorrectionLevel: "L" | "M" | "Q" | "H"
-): number {
-  const capacities = {
-    L: 4296,
-    M: 3391,
-    Q: 2420,
-    H: 1852,
-  };
-  return capacities[errorCorrectionLevel];
 }

@@ -1,6 +1,5 @@
 export interface QRCodeOptions {
   text: string;
-  errorCorrectionLevel: "L" | "M" | "Q" | "H";
 }
 
 export interface QRCodeType {
@@ -61,25 +60,6 @@ export const QR_CODE_TYPES: QRCodeType[] = [
   },
 ];
 
-export const ERROR_CORRECTION_LEVELS = [
-  {
-    value: "L",
-    label: "Low (~7%)",
-    description: "Best for clean environments",
-  },
-  { value: "M", label: "Medium (~15%)", description: "Balanced option" },
-  {
-    value: "Q",
-    label: "Quartile (~25%)",
-    description: "Good for slightly damaged codes",
-  },
-  {
-    value: "H",
-    label: "High (~30%)",
-    description: "Best for damaged environments",
-  },
-] as const;
-
 export const PRESET_COLORS = [
   { name: "Classic", dark: "#000000", light: "#FFFFFF" },
   { name: "Blue", dark: "#1E40AF", light: "#FFFFFF" },
@@ -93,5 +73,4 @@ export const PRESET_COLORS = [
 
 export const DEFAULT_QR_OPTIONS: QRCodeOptions = {
   text: "",
-  errorCorrectionLevel: "M",
 };

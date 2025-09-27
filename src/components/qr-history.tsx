@@ -135,8 +135,7 @@ export function QRHistory({
                       {isExpanded ? item.text : truncatedText}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {formatDate(item.createdAt)} • 256×256px • EC:{" "}
-                      {item.options.errorCorrectionLevel}
+                      {formatDate(item.createdAt)} • 256×256px • EC: Medium
                     </p>
                   </button>
 

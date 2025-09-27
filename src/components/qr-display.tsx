@@ -58,13 +58,12 @@ export function QRDisplay({
     try {
       const dataUrl = await generateQRCode({
         text: sanitizedText,
-        errorCorrectionLevel: options.errorCorrectionLevel,
       });
 
       setQrDataUrl(dataUrl);
 
       // Call onGenerated callback
-      const generatedKey = `${sanitizedText}-${options.errorCorrectionLevel}`;
+      const generatedKey = `${sanitizedText}`;
       if (onGeneratedRef.current && generatedKey !== lastGeneratedRef.current) {
         onGeneratedRef.current({ ...options, text: sanitizedText }, dataUrl);
         lastGeneratedRef.current = generatedKey;
@@ -222,7 +221,7 @@ export function QRDisplay({
           {/* QR Code Details */}
           <div className="rounded-md bg-gray-50 p-3">
             <p className="text-xs text-gray-600">
-              Size: 256×256px • Error Correction: {options.errorCorrectionLevel}
+              Size: 256×256px • Error Correction: Medium
             </p>
             <p className="text-xs text-gray-500 mt-1 break-all">
               Content: {sanitizeInput(options.text)}

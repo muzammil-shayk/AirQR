@@ -2,11 +2,7 @@
 
 import React, { useCallback, useMemo, useState } from "react";
 import { Type, Link, Mail, Wifi, User } from "lucide-react";
-import {
-  QRCodeOptions,
-  QR_CODE_TYPES,
-  ERROR_CORRECTION_LEVELS,
-} from "@/types/qr";
+import { QRCodeOptions, QR_CODE_TYPES } from "@/types/qr";
 
 interface QRInputFormProps {
   options: QRCodeOptions;
@@ -154,34 +150,6 @@ export const QRInputForm = React.memo(function QRInputForm({
               )}
           </div>
         )}
-      </div>
-
-      {/* Error Correction */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-black">
-          Error Correction Level
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {ERROR_CORRECTION_LEVELS.map((level) => (
-            <button
-              key={level.value}
-              onClick={() =>
-                onOptionsChange({
-                  ...options,
-                  errorCorrectionLevel: level.value,
-                })
-              }
-              className={`rounded-md border px-3 py-2 text-sm transition-colors cursor-pointer hover:bg-teal-50 hover:border-teal-300 ${
-                options.errorCorrectionLevel === level.value
-                  ? "border-teal-500 bg-teal-50 text-teal-700"
-                  : "border-gray-300 bg-white text-gray-700"
-              }`}
-              title={level.description}
-            >
-              {level.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Generate Button */}

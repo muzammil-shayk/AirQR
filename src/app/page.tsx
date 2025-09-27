@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { QrCode, Github, Heart, History } from "lucide-react";
+import { QrCode, Github, Heart, History, Linkedin, User } from "lucide-react";
 import { QRDisplay } from "@/components/qr-display";
 import { QRInputForm } from "@/components/qr-input-form";
 import { QRHistory } from "@/components/qr-history";
@@ -51,15 +51,33 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <a
-              href="https://github.com"
+              href="https://github.com/muzammil-shayk"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white text-sm font-medium transition-colors hover:bg-teal-50 hover:text-teal-600 hover:border-teal-300 cursor-pointer"
               aria-label="View on GitHub"
             >
               <Github className="h-4 w-4" />
+            </a>
+            <a
+              href="https://linkedin.com/in/muhammad-muzammil-8771a4309/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white text-sm font-medium transition-colors hover:bg-teal-50 hover:text-teal-600 hover:border-teal-300 cursor-pointer"
+              aria-label="View on LinkedIn"
+            >
+              <Linkedin className="h-4 w-4" />
+            </a>
+            <a
+              href="https://m-muzammil.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white text-sm font-medium transition-colors hover:bg-teal-50 hover:text-teal-600 hover:border-teal-300 cursor-pointer"
+              aria-label="View Portfolio"
+            >
+              <User className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -225,21 +243,52 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 mt-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="flex items-center gap-2">
-              <QrCode className="h-5 w-5 text-teal-500" />
-              <span className="font-semibold text-black">AirQR</span>
-            </div>
-            <p className="text-sm text-gray-600">
-              Made with <Heart className="inline h-4 w-4 text-red-500" /> using
-              Next.js, TypeScript, and Tailwind CSS
-            </p>
-            <p className="text-xs text-gray-500">
-              © 2025 AirQR. Open source and privacy-focused.
-            </p>
+      <footer className="bg-gray-50 border-t border-gray-200">
+        <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+          <div className="flex justify-center gap-4 mb-4">
+            <a
+              href="https://github.com/muzammil-shayk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-teal-600 transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+            <a
+              href="https://linkedin.com/in/muhammad-muzammil-8771a4309/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-teal-600 transition-colors"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a
+              href="https://m-muzammil.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-teal-600 transition-colors"
+              aria-label="Portfolio"
+            >
+              <User className="h-5 w-5" />
+            </a>
           </div>
+          <p className="text-sm">
+            Built by{" "}
+            <a
+              href="https://m-muzammil.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-teal-600 hover:underline"
+            >
+              M. Muzammil
+            </a>
+            .
+          </p>
+          <p className="text-xs mt-2 text-gray-500">
+            © 2025 M. Muzammil. All Rights Reserved.
+          </p>
         </div>
       </footer>
     </div>

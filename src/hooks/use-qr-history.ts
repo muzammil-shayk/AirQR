@@ -58,13 +58,7 @@ export function useQRHistory() {
 
       setHistory((prev) => {
         // Remove duplicates (same text and error correction level)
-        const filtered = prev.filter(
-          (item) =>
-            !(
-              item.text === options.text &&
-              item.options.errorCorrectionLevel === options.errorCorrectionLevel
-            )
-        ); // Add new item to the beginning and limit to MAX_HISTORY_ITEMS
+        const filtered = prev.filter((item) => !(item.text === options.text)); // Add new item to the beginning and limit to MAX_HISTORY_ITEMS
         return [newItem, ...filtered].slice(0, MAX_HISTORY_ITEMS);
       });
 
