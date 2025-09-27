@@ -91,11 +91,11 @@ export function QRHistory({
 
   if (history.length === 0) {
     return (
-      <div className="text-center py-8">
-        <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-semibold mb-2">No History Yet</h3>
-        <p className="text-sm text-muted-foreground">
-          Generated QR codes will appear here for quick access
+      <div className="text-center py-12">
+        <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-black mb-2">No QR codes yet</h3>
+        <p className="text-sm text-gray-600">
+          Generate some QR codes and they&apos;ll appear here
         </p>
       </div>
     );
@@ -134,9 +134,9 @@ export function QRHistory({
                     <p className="text-sm font-medium truncate">
                       {isExpanded ? item.text : truncatedText}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {formatDate(item.createdAt)} • {item.options.size}×
-                      {item.options.size}px
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatDate(item.createdAt)} • 256×256px • EC:{" "}
+                      {item.options.errorCorrectionLevel}
                     </p>
                   </button>
 

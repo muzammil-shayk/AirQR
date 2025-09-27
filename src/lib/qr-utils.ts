@@ -6,12 +6,12 @@ export async function generateQRCode(options: QRCodeOptions): Promise<string> {
   try {
     const qrOptions = {
       errorCorrectionLevel: options.errorCorrectionLevel,
-      margin: options.margin,
+      margin: 4, // Fixed margin
       color: {
-        dark: options.color.dark,
-        light: options.color.light,
+        dark: "#000000", // Fixed colors
+        light: "#FFFFFF",
       },
-      width: options.size,
+      width: 256, // Fixed size
     };
 
     return await QRCode.toDataURL(options.text, qrOptions);
@@ -27,12 +27,12 @@ export async function generateQRCodeSVG(
   try {
     const qrOptions = {
       errorCorrectionLevel: options.errorCorrectionLevel,
-      margin: options.margin,
+      margin: 4, // Fixed margin
       color: {
-        dark: options.color.dark,
-        light: options.color.light,
+        dark: "#000000", // Fixed colors
+        light: "#FFFFFF",
       },
-      width: options.size,
+      width: 256, // Fixed size
     };
 
     return await QRCode.toString(options.text, { ...qrOptions, type: "svg" });

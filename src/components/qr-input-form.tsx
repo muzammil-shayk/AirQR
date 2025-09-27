@@ -1,33 +1,23 @@
 "use client";
 
-import React, { useCallback, useMemo } from "react";
-import {
-  Type,
-  Link,
-  Mail,
-  Phone,
-  MessageSquare,
-  Wifi,
-  User,
-} from "lucide-react";
+import React, { useCallback, useMemo, useState } from "react";
+import { Type, Link, Mail, Wifi, User } from "lucide-react";
 import {
   QRCodeOptions,
   QR_CODE_TYPES,
   ERROR_CORRECTION_LEVELS,
-  PRESET_COLORS,
 } from "@/types/qr";
 
 interface QRInputFormProps {
   options: QRCodeOptions;
   onOptionsChange: (options: QRCodeOptions) => void;
+  onGenerate: () => void;
 }
 
 const iconMap = {
   Type,
   Link,
   Mail,
-  Phone,
-  MessageSquare,
   Wifi,
   User,
 };
@@ -35,9 +25,9 @@ const iconMap = {
 export const QRInputForm = React.memo(function QRInputForm({
   options,
   onOptionsChange,
+  onGenerate,
 }: QRInputFormProps) {
-  const [selectedType, setSelectedType] = React.useState("text");
-  const [customColors, setCustomColors] = React.useState(false);
+  const [selectedType, setSelectedType] = useState("text");
 
   const handleTextChange = useCallback(
     (text: string) => {
@@ -72,20 +62,6 @@ export const QRInputForm = React.memo(function QRInputForm({
     [options, onOptionsChange]
   );
 
-  const handlePresetColor = useCallback(
-    (preset: (typeof PRESET_COLORS)[0]) => {
-      onOptionsChange({
-        ...options,
-        color: {
-          dark: preset.dark,
-          light: preset.light,
-        },
-      });
-      setCustomColors(false);
-    },
-    [options, onOptionsChange]
-  );
-
   const selectedQRType = useMemo(
     () => QR_CODE_TYPES.find((type) => type.id === selectedType),
     [selectedType]
@@ -97,24 +73,24 @@ export const QRInputForm = React.memo(function QRInputForm({
     return options.text;
   }, [selectedType, options.text, selectedQRType]);
 
+  const canGenerate = currentDisplayText.trim().length > 0;
+
   return (
     <div className="space-y-6">
       {/* Type Selection */}
       <div className="space-y-3">
-        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          QR Code Type
-        </label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <label className="text-sm font-medium text-black">QR Code Type</label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {QR_CODE_TYPES.map((type) => {
             const IconComponent = iconMap[type.icon as keyof typeof iconMap];
             return (
               <button
                 key={type.id}
                 onClick={() => handleTypeChange(type.id)}
-                className={`flex flex-col items-center gap-2 rounded-lg border p-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
+                className={`flex flex-col items-center gap-2 rounded-lg border p-3 text-sm transition-colors cursor-pointer hover:bg-teal-50 hover:border-teal-300 ${
                   selectedType === type.id
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-input bg-background"
+                    ? "border-teal-500 bg-teal-50 text-teal-700"
+                    : "border-gray-300 bg-white text-gray-700"
                 }`}
               >
                 <IconComponent className="h-4 w-4" />
@@ -124,23 +100,18 @@ export const QRInputForm = React.memo(function QRInputForm({
           })}
         </div>
         {selectedQRType && (
-          <p className="text-sm text-muted-foreground">
-            {selectedQRType.description}
-          </p>
+          <p className="text-sm text-gray-600">{selectedQRType.description}</p>
         )}
       </div>
 
       {/* Text Input */}
       <div className="space-y-2">
-        <label
-          htmlFor="qr-text"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
+        <label htmlFor="qr-text" className="text-sm font-medium text-black">
           Content
         </label>
         {selectedType === "wifi" ? (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-600">
               Format: WIFI:T:WPA;S:NetworkName;P:Password;H:false;;
             </p>
             <textarea
@@ -148,12 +119,12 @@ export const QRInputForm = React.memo(function QRInputForm({
               placeholder={selectedQRType?.placeholder}
               value={currentDisplayText}
               onChange={(e) => handleTextChange(e.target.value)}
-              className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+              className="flex min-h-[120px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500 resize-none"
             />
           </div>
         ) : selectedType === "vcard" ? (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-600">
               vCard format for contact information
             </p>
             <textarea
@@ -161,7 +132,7 @@ export const QRInputForm = React.memo(function QRInputForm({
               placeholder={selectedQRType?.placeholder}
               value={currentDisplayText}
               onChange={(e) => handleTextChange(e.target.value)}
-              className="flex min-h-[160px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none font-mono"
+              className="flex min-h-[160px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500 resize-none font-mono"
             />
           </div>
         ) : (
@@ -172,12 +143,12 @@ export const QRInputForm = React.memo(function QRInputForm({
               placeholder={selectedQRType?.placeholder}
               value={currentDisplayText}
               onChange={(e) => handleTextChange(e.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-12 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500"
             />
             {selectedQRType?.validation &&
               currentDisplayText &&
               !selectedQRType.validation(currentDisplayText) && (
-                <p className="text-sm text-destructive">
+                <p className="text-sm text-red-600">
                   Invalid format for {selectedQRType.name.toLowerCase()}
                 </p>
               )}
@@ -185,197 +156,47 @@ export const QRInputForm = React.memo(function QRInputForm({
         )}
       </div>
 
-      {/* Customization Options */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Size */}
-        <div className="space-y-3">
-          <label
-            htmlFor="size"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Size ({options.size}px)
-          </label>
-          <input
-            id="size"
-            type="range"
-            min="128"
-            max="512"
-            step="32"
-            value={options.size}
-            onChange={(e) =>
-              onOptionsChange({ ...options, size: parseInt(e.target.value) })
-            }
-            className="flex h-2 w-full cursor-pointer appearance-none rounded-lg bg-secondary"
-          />
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>128px</span>
-            <span>512px</span>
-          </div>
-        </div>
-
-        {/* Error Correction */}
-        <div className="space-y-3">
-          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Error Correction
-          </label>
-          <div className="grid grid-cols-2 gap-2">
-            {ERROR_CORRECTION_LEVELS.map((level) => (
-              <button
-                key={level.value}
-                onClick={() =>
-                  onOptionsChange({
-                    ...options,
-                    errorCorrectionLevel: level.value,
-                  })
-                }
-                className={`rounded-md border px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
-                  options.errorCorrectionLevel === level.value
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-input bg-background"
-                }`}
-                title={level.description}
-              >
-                {level.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Margin */}
+      {/* Error Correction */}
       <div className="space-y-3">
-        <label
-          htmlFor="margin"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Margin ({options.margin}px)
+        <label className="text-sm font-medium text-black">
+          Error Correction Level
         </label>
-        <input
-          id="margin"
-          type="range"
-          min="0"
-          max="20"
-          step="1"
-          value={options.margin}
-          onChange={(e) =>
-            onOptionsChange({ ...options, margin: parseInt(e.target.value) })
-          }
-          className="flex h-2 w-full cursor-pointer appearance-none rounded-lg bg-secondary"
-        />
-        <div className="flex justify-between text-xs text-muted-foreground">
-          <span>0px</span>
-          <span>20px</span>
+        <div className="grid grid-cols-2 gap-2">
+          {ERROR_CORRECTION_LEVELS.map((level) => (
+            <button
+              key={level.value}
+              onClick={() =>
+                onOptionsChange({
+                  ...options,
+                  errorCorrectionLevel: level.value,
+                })
+              }
+              className={`rounded-md border px-3 py-2 text-sm transition-colors cursor-pointer hover:bg-teal-50 hover:border-teal-300 ${
+                options.errorCorrectionLevel === level.value
+                  ? "border-teal-500 bg-teal-50 text-teal-700"
+                  : "border-gray-300 bg-white text-gray-700"
+              }`}
+              title={level.description}
+            >
+              {level.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Colors */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Colors
-          </label>
-          <button
-            onClick={() => setCustomColors(!customColors)}
-            className="text-sm text-primary hover:underline"
-          >
-            {customColors ? "Use Presets" : "Custom Colors"}
-          </button>
-        </div>
-
-        {customColors ? (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label htmlFor="dark-color" className="text-sm font-medium">
-                Foreground
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  id="dark-color"
-                  type="color"
-                  value={options.color.dark}
-                  onChange={(e) =>
-                    onOptionsChange({
-                      ...options,
-                      color: { ...options.color, dark: e.target.value },
-                    })
-                  }
-                  className="h-10 w-16 rounded border border-input bg-background cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={options.color.dark}
-                  onChange={(e) =>
-                    onOptionsChange({
-                      ...options,
-                      color: { ...options.color, dark: e.target.value },
-                    })
-                  }
-                  className="flex h-10 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="light-color" className="text-sm font-medium">
-                Background
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  id="light-color"
-                  type="color"
-                  value={options.color.light}
-                  onChange={(e) =>
-                    onOptionsChange({
-                      ...options,
-                      color: { ...options.color, light: e.target.value },
-                    })
-                  }
-                  className="h-10 w-16 rounded border border-input bg-background cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={options.color.light}
-                  onChange={(e) =>
-                    onOptionsChange({
-                      ...options,
-                      color: { ...options.color, light: e.target.value },
-                    })
-                  }
-                  className="flex h-10 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-4 gap-2">
-            {PRESET_COLORS.map((preset) => (
-              <button
-                key={preset.name}
-                onClick={() => handlePresetColor(preset)}
-                className={`group relative rounded-lg border-2 p-3 transition-all hover:scale-105 ${
-                  options.color.dark === preset.dark &&
-                  options.color.light === preset.light
-                    ? "border-primary ring-2 ring-primary ring-offset-2"
-                    : "border-border hover:border-primary/50"
-                }`}
-                title={preset.name}
-              >
-                <div className="flex h-8 overflow-hidden rounded">
-                  <div
-                    className="flex-1"
-                    style={{ backgroundColor: preset.dark }}
-                  />
-                  <div
-                    className="flex-1"
-                    style={{ backgroundColor: preset.light }}
-                  />
-                </div>
-                <p className="mt-2 text-xs font-medium text-center">
-                  {preset.name}
-                </p>
-              </button>
-            ))}
-          </div>
-        )}
+      {/* Generate Button */}
+      <div className="pt-4">
+        <button
+          onClick={onGenerate}
+          disabled={!canGenerate}
+          className={`w-full h-12 rounded-md text-sm font-medium transition-all cursor-pointer ${
+            canGenerate
+              ? "bg-teal-500 text-white hover:bg-teal-600 hover:shadow-md transform hover:scale-[1.02]"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          Generate QR Code
+        </button>
       </div>
     </div>
   );

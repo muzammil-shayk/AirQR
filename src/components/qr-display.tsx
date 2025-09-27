@@ -1,13 +1,7 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-} from "react";
-import { Download, Copy, Share2, RefreshCw } from "lucide-react";
+import React, { useState, useRef, useCallback } from "react";
+import { Download, Copy, Share2 } from "lucide-react";
 import { QRCodeOptions } from "@/types/qr";
 import {
   generateQRCode,
@@ -19,110 +13,79 @@ import {
 
 interface QRDisplayProps {
   options: QRCodeOptions;
-  onOptionsChange: (options: QRCodeOptions) => void;
   onGenerated?: (options: QRCodeOptions, dataUrl: string) => void;
+  shouldGenerate?: boolean;
+  onGenerateComplete?: () => void;
 }
 
-export function QRDisplay({ options, onGenerated }: QRDisplayProps) {
+export function QRDisplay({
+  options,
+  onGenerated,
+  shouldGenerate,
+  onGenerateComplete,
+}: QRDisplayProps) {
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState(false);
 
-  // Use refs to avoid dependency issues
   const onGeneratedRef = useRef(onGenerated);
   const lastGeneratedRef = useRef<string>("");
 
-  useEffect(() => {
+  React.useEffect(() => {
     onGeneratedRef.current = onGenerated;
   }, [onGenerated]);
 
-  // Sanitize input text with memoization
-  const sanitizedText = useMemo(
-    () => sanitizeInput(options.text),
-    [options.text]
-  );
+  const handleGenerate = useCallback(async () => {
+    const sanitizedText = sanitizeInput(options.text);
 
-  // Stable options object to prevent unnecessary re-renders
-  const stableOptions = useMemo(
-    () => ({
-      size: options.size,
-      errorCorrectionLevel: options.errorCorrectionLevel,
-      margin: options.margin,
-      dark: options.color.dark,
-      light: options.color.light,
-    }),
-    [
-      options.size,
-      options.errorCorrectionLevel,
-      options.margin,
-      options.color.dark,
-      options.color.light,
-    ]
-  );
+    if (!sanitizedText.trim()) {
+      setError("Please enter some content");
+      setQrDataUrl("");
+      return;
+    }
 
-  // Debounced QR generation function
-  const generateQR = useCallback(
-    async (text: string, opts: typeof stableOptions) => {
-      if (!text.trim()) {
-        setQrDataUrl("");
-        setError("");
-        return;
+    const validation = validateQRText(sanitizedText);
+    if (!validation.isValid) {
+      setError(validation.error || "Invalid input");
+      setQrDataUrl("");
+      return;
+    }
+
+    setIsGenerating(true);
+    setError("");
+
+    try {
+      const dataUrl = await generateQRCode({
+        text: sanitizedText,
+        errorCorrectionLevel: options.errorCorrectionLevel,
+      });
+
+      setQrDataUrl(dataUrl);
+
+      // Call onGenerated callback
+      const generatedKey = `${sanitizedText}-${options.errorCorrectionLevel}`;
+      if (onGeneratedRef.current && generatedKey !== lastGeneratedRef.current) {
+        onGeneratedRef.current({ ...options, text: sanitizedText }, dataUrl);
+        lastGeneratedRef.current = generatedKey;
       }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to generate QR code"
+      );
+      setQrDataUrl("");
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [options]);
 
-      const validation = validateQRText(text);
-      if (!validation.isValid) {
-        setError(validation.error || "Invalid input");
-        setQrDataUrl("");
-        return;
-      }
-
-      setIsGenerating(true);
-      setError("");
-
-      try {
-        const dataUrl = await generateQRCode({
-          text,
-          size: opts.size,
-          errorCorrectionLevel: opts.errorCorrectionLevel,
-          margin: opts.margin,
-          color: {
-            dark: opts.dark,
-            light: opts.light,
-          },
-        });
-
-        setQrDataUrl(dataUrl);
-
-        // Only call onGenerated if the data has actually changed
-        const generatedKey = `${text}-${opts.size}-${opts.dark}-${opts.light}`;
-        if (
-          onGeneratedRef.current &&
-          generatedKey !== lastGeneratedRef.current
-        ) {
-          onGeneratedRef.current({ ...options, text }, dataUrl);
-          lastGeneratedRef.current = generatedKey;
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to generate QR code"
-        );
-        setQrDataUrl("");
-      } finally {
-        setIsGenerating(false);
-      }
-    },
-    [options]
-  );
-
-  // Debounced effect for QR generation
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      generateQR(sanitizedText, stableOptions);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [sanitizedText, stableOptions, generateQR]);
+  // Generate QR code when shouldGenerate prop changes
+  React.useEffect(() => {
+    if (shouldGenerate) {
+      handleGenerate();
+      onGenerateComplete?.();
+    }
+  }, [shouldGenerate, handleGenerate, onGenerateComplete]);
 
   const handleDownload = useCallback(async () => {
     if (!qrDataUrl) return;
@@ -138,6 +101,7 @@ export function QRDisplay({ options, onGenerated }: QRDisplayProps) {
   }, [qrDataUrl]);
 
   const handleCopy = useCallback(async () => {
+    const sanitizedText = sanitizeInput(options.text);
     if (!sanitizedText) return;
 
     try {
@@ -147,131 +111,123 @@ export function QRDisplay({ options, onGenerated }: QRDisplayProps) {
     } catch {
       setError("Failed to copy to clipboard");
     }
-  }, [sanitizedText]);
+  }, [options.text]);
 
   const handleShare = useCallback(async () => {
-    if (
-      !qrDataUrl ||
-      typeof navigator === "undefined" ||
-      !("share" in navigator)
-    )
-      return;
+    if (!qrDataUrl) return;
 
     try {
-      const response = await fetch(qrDataUrl);
-      const blob = await response.blob();
-      const file = new File([blob], "qr-code.png", { type: "image/png" });
-
-      await navigator.share({
-        title: "QR Code",
-        text: "Check out this QR code",
-        files: [file],
-      });
+      if (navigator.share) {
+        const blob = await fetch(qrDataUrl).then((r) => r.blob());
+        const file = new File([blob], "qr-code.png", { type: "image/png" });
+        await navigator.share({
+          files: [file],
+          title: "QR Code",
+          text: "Generated QR Code",
+        });
+      } else {
+        // Fallback to copying the data URL
+        await navigator.clipboard.writeText(qrDataUrl);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      }
     } catch {
       setError("Failed to share QR code");
     }
   }, [qrDataUrl]);
 
-  const regenerateQR = useCallback(() => {
-    generateQR(sanitizedText, stableOptions);
-  }, [generateQR, sanitizedText, stableOptions]);
-
   return (
-    <div className="flex flex-col items-center space-y-6">
+    <div className="space-y-6">
       {/* QR Code Display */}
-      <div className="relative">
+      <div className="flex items-center justify-center">
         <div
-          className="flex items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 transition-all duration-200"
+          className="rounded-lg border-2 border-gray-200 bg-white p-6 shadow-sm"
           style={{
-            width: Math.max(options.size, 200),
-            height: Math.max(options.size, 200),
+            width: Math.max(256, 200) + 48,
+            height: Math.max(256, 200) + 48,
           }}
         >
-          {isGenerating ? (
-            <div className="flex flex-col items-center space-y-2">
-              <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Generating...</p>
-            </div>
-          ) : error ? (
-            <div className="flex flex-col items-center space-y-2 p-4 text-center">
-              <div className="rounded-full bg-destructive/10 p-3">
-                <RefreshCw className="h-6 w-6 text-destructive" />
+          {error ? (
+            <div className="flex h-full items-center justify-center text-center">
+              <div className="space-y-2">
+                <div className="text-red-500 text-sm font-medium">Error</div>
+                <p className="text-xs text-red-400">{error}</p>
               </div>
-              <p className="text-sm text-destructive">{error}</p>
             </div>
           ) : qrDataUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={qrDataUrl}
-              alt="Generated QR Code"
-              className="max-w-full max-h-full object-contain rounded-md"
-              style={{
-                width: options.size,
-                height: options.size,
-              }}
-            />
+            <div className="flex h-full items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={qrDataUrl}
+                alt="Generated QR Code"
+                className="max-w-full max-h-full object-contain rounded"
+                style={{
+                  width: 256,
+                  height: 256,
+                }}
+              />
+            </div>
           ) : (
-            <div className="flex flex-col items-center space-y-2 text-center p-4">
-              <div className="rounded-full bg-muted p-3">
-                <RefreshCw className="h-6 w-6 text-muted-foreground" />
+            <div className="flex h-full items-center justify-center text-center">
+              <div className="space-y-2">
+                <div className="text-gray-400 text-sm">
+                  No QR Code Generated
+                </div>
+                <p className="text-xs text-gray-400">
+                  Enter content and click Generate
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Enter text to generate QR code
-              </p>
             </div>
           )}
         </div>
       </div>
 
+      {/* Loading State */}
+      {isGenerating && (
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 text-sm text-teal-600">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-teal-600 border-t-transparent" />
+            Generating QR Code...
+          </div>
+        </div>
+      )}
+
       {/* Action Buttons */}
-      {qrDataUrl && !error && (
-        <div className="flex flex-wrap gap-2 justify-center">
-          <button
-            onClick={handleDownload}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-          >
-            <Download className="h-4 w-4" />
-            Download PNG
-          </button>
-
-          <button
-            onClick={handleCopy}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-          >
-            <Copy className="h-4 w-4" />
-            {copySuccess ? "Copied!" : "Copy Text"}
-          </button>
-
-          {typeof navigator !== "undefined" && "share" in navigator && (
+      {qrDataUrl && !isGenerating && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-3 gap-3">
+            <button
+              onClick={handleDownload}
+              className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
+            >
+              <Download className="h-4 w-4" />
+              Download
+            </button>
+            <button
+              onClick={handleCopy}
+              className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
+            >
+              <Copy className="h-4 w-4" />
+              {copySuccess ? "Copied!" : "Copy Text"}
+            </button>
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
             >
               <Share2 className="h-4 w-4" />
               Share
             </button>
-          )}
+          </div>
 
-          <button
-            onClick={regenerateQR}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Regenerate
-          </button>
-        </div>
-      )}
-
-      {/* QR Code Info */}
-      {qrDataUrl && !error && (
-        <div className="text-center space-y-1">
-          <p className="text-xs text-muted-foreground">
-            Size: {options.size}×{options.size}px • Error Correction:{" "}
-            {options.errorCorrectionLevel}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Characters: {sanitizedText.length}
-          </p>
+          {/* QR Code Details */}
+          <div className="rounded-md bg-gray-50 p-3">
+            <p className="text-xs text-gray-600">
+              Size: 256×256px • Error Correction: {options.errorCorrectionLevel}
+            </p>
+            <p className="text-xs text-gray-500 mt-1 break-all">
+              Content: {sanitizeInput(options.text)}
+            </p>
+          </div>
         </div>
       )}
     </div>

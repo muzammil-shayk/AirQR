@@ -1,13 +1,6 @@
 export interface QRCodeOptions {
   text: string;
-  size: number;
   errorCorrectionLevel: "L" | "M" | "Q" | "H";
-  margin: number;
-  color: {
-    dark: string;
-    light: string;
-  };
-  logo?: string;
 }
 
 export interface QRCodeType {
@@ -51,29 +44,6 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     placeholder: "example@domain.com",
     validation: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     format: (value: string) => `mailto:${value}`,
-  },
-  {
-    id: "phone",
-    name: "Phone",
-    icon: "Phone",
-    description: "Phone number",
-    placeholder: "+1234567890",
-    validation: (value: string) => /^[+]?[1-9][\d\s\-()]{7,15}$/.test(value),
-    format: (value: string) => `tel:${value}`,
-  },
-  {
-    id: "sms",
-    name: "SMS",
-    icon: "MessageSquare",
-    description: "SMS message",
-    placeholder: "+1234567890:Your message here",
-    format: (value: string) => {
-      const [phone, ...messageParts] = value.split(":");
-      const message = messageParts.join(":");
-      return `sms:${phone}${
-        message ? `?body=${encodeURIComponent(message)}` : ""
-      }`;
-    },
   },
   {
     id: "wifi",
@@ -123,11 +93,5 @@ export const PRESET_COLORS = [
 
 export const DEFAULT_QR_OPTIONS: QRCodeOptions = {
   text: "",
-  size: 256,
   errorCorrectionLevel: "M",
-  margin: 4,
-  color: {
-    dark: "#000000",
-    light: "#FFFFFF",
-  },
 };
