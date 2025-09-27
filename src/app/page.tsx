@@ -1,30 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { QrCode, Github, Heart, History, Linkedin, User } from "lucide-react";
+import { QrCode, Github, Heart, Linkedin, User } from "lucide-react";
 import { QRDisplay } from "@/components/qr-display";
 import { QRInputForm } from "@/components/qr-input-form";
-import { QRHistory } from "@/components/qr-history";
 import { QRCodeOptions, DEFAULT_QR_OPTIONS } from "@/types/qr";
-import { useQRHistory } from "@/hooks/use-qr-history";
 
 export default function Home() {
   const [qrOptions, setQrOptions] = useState<QRCodeOptions>(DEFAULT_QR_OPTIONS);
-  const [activeTab, setActiveTab] = useState<"generator" | "history">(
-    "generator"
-  );
   const [shouldGenerate, setShouldGenerate] = useState(false);
-  const { history, addToHistory, removeFromHistory, clearHistory } =
-    useQRHistory();
-
-  const handleQRGenerated = React.useCallback(
-    (options: QRCodeOptions, dataUrl: string) => {
-      if (options.text.trim()) {
-        addToHistory(options, dataUrl);
-      }
-    },
-    [addToHistory]
-  );
 
   const handleGenerate = React.useCallback(() => {
     setShouldGenerate(true);
@@ -98,88 +82,46 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex space-x-1 rounded-lg bg-gray-100 p-1 mb-8">
-            <button
-              onClick={() => setActiveTab("generator")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2 px-3 text-sm font-medium transition-colors cursor-pointer ${
-                activeTab === "generator"
-                  ? "bg-white text-black shadow-sm"
-                  : "text-gray-600 hover:text-teal-600 hover:bg-teal-50"
-              }`}
-            >
-              <QrCode className="h-4 w-4" />
-              Generator
-            </button>
-            <button
-              onClick={() => setActiveTab("history")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-md py-2 px-3 text-sm font-medium transition-colors cursor-pointer ${
-                activeTab === "history"
-                  ? "bg-white text-black shadow-sm"
-                  : "text-gray-600 hover:text-teal-600 hover:bg-teal-50"
-              }`}
-            >
-              <History className="h-4 w-4" />
-              History ({history.length})
-            </button>
-          </div>
-
-          {/* Tab Content */}
-          {activeTab === "generator" && (
-            <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-              {/* Input Form */}
-              <div className="space-y-6">
-                <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold mb-2 text-black">
-                      Configure QR Code
-                    </h2>
-                    <p className="text-sm text-gray-600">
-                      Choose your content type and click generate
-                    </p>
-                  </div>
-                  <QRInputForm
-                    options={qrOptions}
-                    onOptionsChange={setQrOptions}
-                    onGenerate={handleGenerate}
-                  />
-                </div>
-              </div>
-
-              {/* QR Display */}
-              <div className="space-y-6">
-                <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold mb-2 text-black">
-                      Preview & Download
-                    </h2>
-                    <p className="text-sm text-gray-600">
-                      Your QR code will appear here after generation
-                    </p>
-                  </div>
-                  <QRDisplay
-                    options={qrOptions}
-                    onGenerated={handleQRGenerated}
-                    shouldGenerate={shouldGenerate}
-                    onGenerateComplete={handleGenerateComplete}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "history" && (
-            <div className="max-w-2xl mx-auto">
+          {/* Main Content */}
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+            {/* Input Form */}
+            <div className="space-y-6">
               <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                <QRHistory
-                  history={history}
-                  onRemoveItem={removeFromHistory}
-                  onClearHistory={clearHistory}
-                  onLoadItem={setQrOptions}
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-2 text-black">
+                    Configure QR Code
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    Choose your content type and click generate
+                  </p>
+                </div>
+                <QRInputForm
+                  options={qrOptions}
+                  onOptionsChange={setQrOptions}
+                  onGenerate={handleGenerate}
                 />
               </div>
             </div>
-          )}
+
+            {/* QR Display */}
+            <div className="space-y-6">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-2 text-black">
+                    Preview & Download
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    Your QR code will appear here after generation
+                  </p>
+                </div>
+                <QRDisplay
+                  options={qrOptions}
+                  shouldGenerate={shouldGenerate}
+                  onGenerateComplete={handleGenerateComplete}
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Features Section */}
           <div className="mt-20">

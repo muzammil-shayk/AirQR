@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Download, Copy, Share2 } from "lucide-react";
 import { QRCodeOptions } from "@/types/qr";
 import {
@@ -13,14 +13,12 @@ import {
 
 interface QRDisplayProps {
   options: QRCodeOptions;
-  onGenerated?: (options: QRCodeOptions, dataUrl: string) => void;
   shouldGenerate?: boolean;
   onGenerateComplete?: () => void;
 }
 
 export function QRDisplay({
   options,
-  onGenerated,
   shouldGenerate,
   onGenerateComplete,
 }: QRDisplayProps) {
@@ -28,13 +26,6 @@ export function QRDisplay({
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState(false);
-
-  const onGeneratedRef = useRef(onGenerated);
-  const lastGeneratedRef = useRef<string>("");
-
-  React.useEffect(() => {
-    onGeneratedRef.current = onGenerated;
-  }, [onGenerated]);
 
   const handleGenerate = useCallback(async () => {
     const sanitizedText = sanitizeInput(options.text);
@@ -61,13 +52,6 @@ export function QRDisplay({
       });
 
       setQrDataUrl(dataUrl);
-
-      // Call onGenerated callback
-      const generatedKey = `${sanitizedText}`;
-      if (onGeneratedRef.current && generatedKey !== lastGeneratedRef.current) {
-        onGeneratedRef.current({ ...options, text: sanitizedText }, dataUrl);
-        lastGeneratedRef.current = generatedKey;
-      }
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to generate QR code"
@@ -139,13 +123,7 @@ export function QRDisplay({
     <div className="space-y-6">
       {/* QR Code Display */}
       <div className="flex items-center justify-center">
-        <div
-          className="rounded-lg border-2 border-gray-200 bg-white p-6 shadow-sm"
-          style={{
-            width: Math.max(256, 200) + 48,
-            height: Math.max(256, 200) + 48,
-          }}
-        >
+        <div className="rounded-lg border-2 border-gray-200 bg-white p-6 shadow-sm w-80 h-80">
           {error ? (
             <div className="flex h-full items-center justify-center text-center">
               <div className="space-y-2">
@@ -159,11 +137,7 @@ export function QRDisplay({
               <img
                 src={qrDataUrl}
                 alt="Generated QR Code"
-                className="max-w-full max-h-full object-contain rounded"
-                style={{
-                  width: 256,
-                  height: 256,
-                }}
+                className="w-64 h-64 object-contain rounded"
               />
             </div>
           ) : (

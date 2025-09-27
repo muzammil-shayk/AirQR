@@ -68,16 +68,6 @@ export function downloadQRCode(
   }
 }
 
-export function downloadQRCodeSVG(svgString: string, filename: string) {
-  try {
-    const blob = new Blob([svgString], { type: "image/svg+xml" });
-    saveAs(blob, `${filename}.svg`);
-  } catch (error) {
-    console.error("Error downloading QR code SVG:", error);
-    throw new Error("Failed to download QR code SVG");
-  }
-}
-
 export function copyToClipboard(text: string): Promise<void> {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);
@@ -126,14 +116,4 @@ export function validateQRText(text: string): {
   }
 
   return { isValid: true };
-}
-
-export function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 Bytes";
-
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }

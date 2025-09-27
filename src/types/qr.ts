@@ -60,17 +60,6 @@ export const QR_CODE_TYPES: QRCodeType[] = [
   },
 ];
 
-export const PRESET_COLORS = [
-  { name: "Classic", dark: "#000000", light: "#FFFFFF" },
-  { name: "Blue", dark: "#1E40AF", light: "#FFFFFF" },
-  { name: "Green", dark: "#059669", light: "#FFFFFF" },
-  { name: "Purple", dark: "#7C3AED", light: "#FFFFFF" },
-  { name: "Red", dark: "#DC2626", light: "#FFFFFF" },
-  { name: "Orange", dark: "#EA580C", light: "#FFFFFF" },
-  { name: "Pink", dark: "#DB2777", light: "#FFFFFF" },
-  { name: "Teal", dark: "#0D9488", light: "#FFFFFF" },
-];
-
 export const DEFAULT_QR_OPTIONS: QRCodeOptions = {
   text: "",
 };

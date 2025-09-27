@@ -1,6 +1,6 @@
 # 🚀 AirQR - Modern QR Code Generator
 
-A secure, fast, and privacy-focused QR code generator built with Next.js 15, TypeScript, and Tailwind CSS. Generate QR codes instantly with advanced customization options, batch processing, and history tracking.
+A secure, fast, and privacy-focused QR code generator built with Next.js 15, TypeScript, and Tailwind CSS. Generate QR codes instantly with advanced customization options.
 
 ## ✨ Features
 
@@ -14,10 +14,7 @@ A secure, fast, and privacy-focused QR code generator built with Next.js 15, Typ
 
 ### Advanced Features
 
-- **📚 History Tracking**: Automatic saving of generated QR codes
-- **🔄 Batch Generation**: Create multiple QR codes and download as ZIP
-- **📁 CSV Import**: Upload CSV files for bulk QR code generation
-- **💾 Multiple Formats**: PNG, SVG download options
+- ** Multiple Formats**: PNG, SVG download options
 - **📋 Easy Sharing**: Copy text, share QR codes natively
 
 ### Security & Privacy
@@ -93,22 +90,6 @@ A secure, fast, and privacy-focused QR code generator built with Next.js 15, Typ
 2. Enter your content
 3. Customize appearance (colors, size, error correction)
 4. Download or share your QR code
-
-### Batch Generation
-
-1. Switch to the "Batch" tab
-2. Add multiple items manually or upload a CSV file
-3. Customize base options
-4. Generate and download all QR codes as a ZIP file
-
-### CSV Format for Batch Import
-
-```csv
-text,filename
-https://example.com,example-website
-Hello World,greeting-message
-john@example.com,contact-email
-```
 
 ## 🔧 Configuration
 
