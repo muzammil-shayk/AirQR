@@ -7,7 +7,7 @@
   "functions": {
     "app/**": {
       "includeFiles": "public/**",
-      "excludeFiles": ["node_modules/**"]
+      "excludeFiles": "node_modules/**"
     }
   },
   "headers": [
