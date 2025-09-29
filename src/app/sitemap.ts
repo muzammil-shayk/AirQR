@@ -9,31 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: baseUrl,
       lastModified: currentDate,
       changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}#wifi-qr-generator`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}#vcard-qr-generator`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}#url-qr-generator`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}#text-qr-generator`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 1.0,
     },
   ];
 }
