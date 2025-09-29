@@ -102,7 +102,10 @@ export function QRDisplay({
 
   const handleCopy = useCallback(async () => {
     const sanitizedText = sanitizeInput(options.text);
-    if (!sanitizedText) return;
+    if (!sanitizedText || !qrDataUrl) return;
+
+    // Never copy WiFi credentials
+    if (sanitizedText.startsWith("WIFI:")) return;
 
     try {
       await copyToClipboard(sanitizedText);
@@ -111,7 +114,7 @@ export function QRDisplay({
     } catch {
       setError("Failed to copy to clipboard");
     }
-  }, [options.text]);
+  }, [options.text, qrDataUrl]);
 
   return (
     <div className="space-y-6">
@@ -184,7 +187,11 @@ export function QRDisplay({
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div
+            className={`grid ${
+              options.text.startsWith("WIFI:") ? "grid-cols-1" : "grid-cols-2"
+            } gap-3`}
+          >
             <button
               onClick={handleDownload}
               className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
@@ -192,13 +199,15 @@ export function QRDisplay({
               <Download className="h-4 w-4" />
               Download
             </button>
-            <button
-              onClick={handleCopy}
-              className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
-            >
-              <Copy className="h-4 w-4" />
-              {copySuccess ? "Copied!" : "Copy Text"}
-            </button>
+            {!options.text.startsWith("WIFI:") && (
+              <button
+                onClick={handleCopy}
+                className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
+              >
+                <Copy className="h-4 w-4" />
+                {copySuccess ? "Copied!" : "Copy Text"}
+              </button>
+            )}
           </div>
 
           {/* QR Code Details */}
@@ -206,9 +215,11 @@ export function QRDisplay({
             <p className="text-xs text-gray-600">
               Display: 256×256px • Download: {selectedSize}×{selectedSize}px
             </p>
-            <p className="text-xs text-gray-500 mt-1 break-all">
-              Content: {sanitizeInput(options.text)}
-            </p>
+            {!options.text.startsWith("WIFI:") && (
+              <p className="text-xs text-gray-500 mt-1 break-all">
+                Content: {sanitizeInput(options.text)}
+              </p>
+            )}
           </div>
         </div>
       )}
