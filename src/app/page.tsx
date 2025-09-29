@@ -77,13 +77,34 @@ export default function Home() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold tracking-tight text-black sm:text-5xl lg:text-6xl">
-              Generate QR Codes
-              <span className="block text-teal-500">Instantly</span>
+              Free Lightweight QR Code Generator
+              <span className="block text-teal-500">
+                Privacy-First & Lightning Fast
+              </span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl mx-auto">
-              Create secure QR codes for any purpose. Modern, fast, and
-              privacy-focused.
+              Generate WiFi, vCard, URL & text QR codes instantly. No
+              registration, no data collection, works offline. The fastest &
+              most lightweight QR generator for on-the-go use.
             </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                100% Privacy-First
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                Lightning Fast
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                Ultra Lightweight
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                Works Offline
+              </span>
+            </div>
           </div>
 
           {/* Main Content */}
@@ -93,10 +114,11 @@ export default function Home() {
               <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold mb-2 text-black">
-                    Configure QR Code
+                    Create Your QR Code
                   </h2>
                   <p className="text-sm text-gray-600">
-                    Choose your content type and click generate
+                    Select from WiFi, Contact Cards, URLs, or Text. Generate
+                    instantly with zero data collection.
                   </p>
                 </div>
                 <QRInputForm
@@ -146,11 +168,12 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-black">
-                  Multiple Formats
+                  Multiple QR Code Types
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Support for URLs, text, email, WiFi, vCard with smart
-                  formatting
+                  Generate WiFi QR codes, vCard contact cards, URL links, and
+                  text QR codes. Smart formatting for instant sharing and
+                  connectivity.
                 </p>
               </div>
 
@@ -161,11 +184,12 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-black">
-                  Privacy First
+                  100% Privacy Protected
                 </h3>
                 <p className="text-sm text-gray-600">
-                  All processing happens in your browser. No data is sent to
-                  servers or stored online
+                  Zero data collection. All QR code generation happens locally
+                  in your browser. Your information never leaves your device -
+                  guaranteed secure and private.
                 </p>
               </div>
 
@@ -176,11 +200,12 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-black">
-                  Simple & Fast
+                  Lightning Fast & Lightweight
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Clean interface with error correction levels to match your
-                  needs
+                  Ultra-lightweight design loads instantly. Generate
+                  high-quality QR codes in milliseconds with customizable sizes
+                  and error correction.
                 </p>
               </div>
             </div>
@@ -228,8 +253,8 @@ export default function Home() {
               <User className="h-5 w-5" />
             </a>
           </div>
-          <p className="text-sm">
-            Built by{" "}
+          <p className="text-sm mb-2">
+            Free QR Code Generator - No Registration Required | Built by{" "}
             <a
               href="https://m-muzammil.vercel.app"
               target="_blank"
@@ -238,10 +263,12 @@ export default function Home() {
             >
               M. Muzammil
             </a>
-            .
           </p>
-          <p className="text-xs mt-2 text-gray-500">
-            © 2025 M. Muzammil. All Rights Reserved.
+          <p className="text-xs text-gray-400 mb-2">
+            Privacy-First • Lightweight • Secure • Fast QR Generation
+          </p>
+          <p className="text-xs text-gray-500">
+            © 2025 AirQR by M. Muzammil. All Rights Reserved.
           </p>
         </div>
       </footer>
