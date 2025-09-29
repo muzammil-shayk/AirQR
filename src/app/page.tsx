@@ -76,7 +76,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold tracking-tight text-black sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-black sm:text-5xl lg:text-5xl">
               Free Lightweight QR Code Generator
               <span className="block text-teal-500">
                 Privacy-First & Lightning Fast
