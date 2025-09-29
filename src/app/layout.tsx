@@ -117,6 +117,29 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
         <meta name="msapplication-TileColor" content="#ffffff" />
 
+        {/* Google Search Console Verification */}
+        <meta
+          name="google-site-verification"
+          content="7honvn0dgFWnUZfMjEA7Fi1Y011qKHV_K---e_oVK6c"
+        />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://airqr.vercel.app" />
+
+        {/* Language and Region */}
+        <meta name="language" content="en" />
+        <meta name="geo.region" content="US" />
+        <meta name="geo.placename" content="United States" />
+
+        {/* Additional SEO Meta Tags */}
+        <meta name="revisit-after" content="7 days" />
+        <meta name="distribution" content="global" />
+        <meta name="rating" content="general" />
+
+        {/* DNS Prefetch for external resources */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
+
         {/* Structured Data for SEO */}
         <script
           type="application/ld+json"
