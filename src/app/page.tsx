@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { QrCode, Github, Heart, Linkedin, User } from "lucide-react";
+import Image from "next/image";
 import { QRDisplay } from "@/components/qr-display";
 import { QRInputForm } from "@/components/qr-input-form";
 import { QRCodeOptions, DEFAULT_QR_OPTIONS } from "@/types/qr";
@@ -22,11 +23,14 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="border-b border-gray-200 bg-white/95 backdrop-blur sticky top-0 z-50">
-        <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500 text-white">
-              <QrCode className="h-6 w-6" />
-            </div>
+            <Image
+              src="/airqr-logo.svg"
+              alt="AirQR Logo"
+              width={64}
+              height={64}
+            />
             <div>
               <h1 className="text-xl font-bold text-black">AirQR</h1>
               <p className="text-sm text-gray-600 hidden sm:block">
@@ -187,6 +191,14 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200">
         <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+          <div className="flex justify-center mb-3">
+            <Image
+              src="/airqr-txt-logo.svg"
+              alt="AirQR Logo"
+              width={120}
+              height={40}
+            />
+          </div>
           <div className="flex justify-center gap-4 mb-4">
             <a
               href="https://github.com/muzammil-shayk"
