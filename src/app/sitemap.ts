@@ -2,12 +2,13 @@ import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://airqr.vercel.app";
+  const currentDate = new Date();
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date().toISOString(),
-      changeFrequency: "weekly",
+      lastModified: currentDate,
+      changeFrequency: "weekly" as const,
       priority: 1.0,
     },
   ];
