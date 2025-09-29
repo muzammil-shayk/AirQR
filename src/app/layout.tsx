@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://airqr.vercel.app'),
+  metadataBase: new URL("https://airqr.vercel.app"),
   title:
     "AirQR - Free Lightweight QR Code Generator | Privacy-First & Lightning Fast",
   description:
