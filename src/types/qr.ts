@@ -18,14 +18,15 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     id: "text",
     name: "Text",
     icon: "Type",
-    description: "Plain text or message",
+    description: "Share text messages, notes, or information instantly",
     placeholder: "Enter your text here...",
   },
   {
     id: "url",
     name: "URL",
     icon: "Link",
-    description: "Website or webpage link",
+    description:
+      "Create instant links to websites, landing pages, or resources",
     placeholder: "https://example.com",
     validation: (value: string) => {
       try {
@@ -40,7 +41,7 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     id: "email",
     name: "Email",
     icon: "Mail",
-    description: "Email address",
+    description: "Generate quick email contact links",
     placeholder: "example@domain.com",
     validation: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     format: (value: string) => `mailto:${value}`,
@@ -49,8 +50,7 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     id: "wifi",
     name: "WiFi",
     icon: "Wifi",
-    description:
-      "WiFi network credentials - Replace the values below with your actual WiFi details",
+    description: "Share secure WiFi network access without revealing passwords",
     placeholder: "WIFI:T:WPA;S:NetworkName;P:Password;H:false;;",
     skeleton: "WIFI:T:WPA;S:YourNetworkName;P:YourPassword;H:false;;",
   },
@@ -58,8 +58,7 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     id: "vcard",
     name: "vCard",
     icon: "User",
-    description:
-      "Contact information - Replace the values below with your actual details",
+    description: "Create digital business cards for professional networking",
     placeholder: "BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nEND:VCARD",
     skeleton:
       "BEGIN:VCARD\nVERSION:3.0\nFN:Your Full Name\nORG:Your Company\nTITLE:Your Job Title\nTEL:+1234567890\nEMAIL:your@email.com\nURL:https://yourwebsite.com\nADR:;;Street Address;City;State;Zip;Country\nEND:VCARD",

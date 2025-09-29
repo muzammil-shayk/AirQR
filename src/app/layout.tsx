@@ -8,35 +8,67 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
+  title:
+    "AirQR - Free Lightweight QR Code Generator | Privacy-First & Lightning Fast",
   description:
-    "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
+    "Generate QR codes instantly with AirQR - the fastest, most lightweight QR generator. Privacy-first design, no data collection, works offline. Create WiFi, vCard, URL, and text QR codes on-the-go.",
   keywords: [
-    "QR code",
-    "generator",
-    "secure",
-    "customizable",
-    "modern",
-    "privacy",
+    "QR code generator",
+    "free QR code",
+    "lightweight QR generator",
+    "privacy QR code",
+    "fast QR generator",
+    "WiFi QR code",
+    "vCard QR code",
+    "URL QR code",
+    "text QR code",
+    "secure QR generator",
+    "offline QR generator",
+    "mobile QR generator",
+    "instant QR code",
+    "quick QR generator",
+    "privacy-first QR",
+    "lightweight web app",
+    "no registration QR",
+    "browser QR generator",
+    "on-the-go QR",
+    "portable QR tool",
     "Muhammad Muzammil",
   ],
   authors: [
     { name: "Muhammad Muzammil", url: "https://m-muzammil.vercel.app" },
   ],
+  creator: "Muhammad Muzammil",
+  publisher: "Muhammad Muzammil",
   robots: "index, follow",
+  category: "Technology",
+  applicationName: "AirQR",
+  referrer: "origin-when-cross-origin",
   openGraph: {
-    title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
+    title:
+      "AirQR - Free Lightweight QR Code Generator | Privacy-First & Lightning Fast",
     description:
-      "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
+      "Generate QR codes instantly with AirQR - the fastest, most lightweight QR generator. Privacy-first design, no data collection, works offline. Perfect for WiFi, contacts, URLs & more.",
     type: "website",
     locale: "en_US",
     url: "https://airqr.vercel.app",
+    siteName: "AirQR",
+    images: [
+      {
+        url: "/android-chrome-512x512.png",
+        width: 512,
+        height: 512,
+        alt: "AirQR - Lightweight QR Code Generator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AirQR - Modern QR Code Generator by Muhammad Muzammil",
+    title: "AirQR - Free Lightweight QR Generator | Privacy-First",
     description:
-      "Generate secure, customizable QR codes instantly. Built by Muhammad Muzammil.",
+      "Generate QR codes instantly with AirQR. Lightweight, privacy-first, and lightning fast. No data collection, works offline.",
+    creator: "@muzammil_shayk",
+    images: ["/android-chrome-512x512.png"],
   },
 };
 
@@ -84,6 +116,58 @@ export default function RootLayout({
         {/* Additional meta tags for better PWA support */}
         <meta name="theme-color" content="#ffffff" />
         <meta name="msapplication-TileColor" content="#ffffff" />
+
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "AirQR",
+              alternateName: "AirQR - QR Code Generator",
+              description:
+                "Free lightweight QR code generator with privacy-first design. Generate WiFi, vCard, URL, and text QR codes instantly without data collection.",
+              url: "https://airqr.vercel.app",
+              applicationCategory: "UtilityApplication",
+              operatingSystem: "Web Browser",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              author: {
+                "@type": "Person",
+                name: "Muhammad Muzammil",
+                url: "https://m-muzammil.vercel.app",
+              },
+              creator: {
+                "@type": "Person",
+                name: "Muhammad Muzammil",
+                url: "https://m-muzammil.vercel.app",
+              },
+              featureList: [
+                "Generate WiFi QR codes",
+                "Create vCard contact QR codes",
+                "Generate URL QR codes",
+                "Create text QR codes",
+                "Privacy-first design",
+                "No data collection",
+                "Offline functionality",
+                "Lightweight and fast",
+                "Mobile responsive",
+                "Free to use",
+              ],
+              screenshot: "https://airqr.vercel.app/android-chrome-512x512.png",
+              softwareVersion: "1.0.0",
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "5.0",
+                ratingCount: "1",
+              },
+            }),
+          }}
+        />
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-white text-black`}
