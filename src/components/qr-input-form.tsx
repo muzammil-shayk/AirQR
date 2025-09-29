@@ -3,6 +3,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Type, Link, Mail, Wifi, User } from "lucide-react";
 import { QRCodeOptions, QR_CODE_TYPES } from "@/types/qr";
+import { WiFiForm } from "./wifi-form";
+import { VCardForm } from "./vcard-form";
 
 interface QRInputFormProps {
   options: QRCodeOptions;
@@ -49,12 +51,11 @@ export const QRInputForm = React.memo(function QRInputForm({
       setSelectedType(typeId);
       const type = QR_CODE_TYPES.find((t) => t.id === typeId);
       if (type) {
-        // Pre-fill with skeleton for wifi and vcard, keep existing text for text type
+        // Always reset text when switching types
         let newText = "";
-        if (type.id === "text") {
-          newText = options.text;
-        } else if (type.skeleton) {
-          newText = type.skeleton;
+        if (type.skeleton) {
+          // For wifi and vcard, start with empty form (will be filled by form components)
+          newText = "";
         }
 
         onOptionsChange({
@@ -65,7 +66,6 @@ export const QRInputForm = React.memo(function QRInputForm({
     },
     [options, onOptionsChange]
   );
-
   const selectedQRType = useMemo(
     () => QR_CODE_TYPES.find((type) => type.id === selectedType),
     [selectedType]
@@ -116,27 +116,33 @@ export const QRInputForm = React.memo(function QRInputForm({
         {selectedType === "wifi" ? (
           <div className="space-y-3">
             <p className="text-sm text-gray-600">
-              Format: WIFI:T:WPA;S:NetworkName;P:Password;H:false;;
+              Fill out the WiFi details below - the format will be generated
+              automatically
             </p>
-            <textarea
-              id="qr-text"
-              placeholder={selectedQRType?.placeholder}
-              value={currentDisplayText}
-              onChange={(e) => handleTextChange(e.target.value)}
-              className="flex min-h-[120px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500 resize-none"
+            <WiFiForm
+              key="wifi-form"
+              onChange={(wifiString) => {
+                onOptionsChange({
+                  ...options,
+                  text: wifiString,
+                });
+              }}
             />
           </div>
         ) : selectedType === "vcard" ? (
           <div className="space-y-3">
             <p className="text-sm text-gray-600">
-              vCard format for contact information
+              Fill out your contact information - the vCard format will be
+              generated automatically
             </p>
-            <textarea
-              id="qr-text"
-              placeholder={selectedQRType?.placeholder}
-              value={currentDisplayText}
-              onChange={(e) => handleTextChange(e.target.value)}
-              className="flex min-h-[160px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500 resize-none font-mono"
+            <VCardForm
+              key="vcard-form"
+              onChange={(vCardString) => {
+                onOptionsChange({
+                  ...options,
+                  text: vCardString,
+                });
+              }}
             />
           </div>
         ) : (
