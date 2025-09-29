@@ -77,7 +77,20 @@ export const QRInputForm = React.memo(function QRInputForm({
     return options.text;
   }, [selectedType, options.text, selectedQRType]);
 
-  const canGenerate = currentDisplayText.trim().length > 0;
+  const canGenerate = useMemo(() => {
+    if (selectedType === "wifi") {
+      // For WiFi, check if SSID is present in the WiFi string
+      const wifiMatch = options.text.match(/S:([^;]*)/);
+      return wifiMatch && wifiMatch[1].trim().length > 0;
+    }
+    if (selectedType === "vcard") {
+      // For vCard, check if there's a valid FN field with content
+      const fnMatch = options.text.match(/FN:([^\n\r]*)/);
+      return fnMatch && fnMatch[1].trim().length > 0;
+    }
+    // For other types, check if there's any content
+    return currentDisplayText.trim().length > 0;
+  }, [selectedType, options.text, currentDisplayText]);
 
   return (
     <div className="space-y-6">
@@ -171,9 +184,9 @@ export const QRInputForm = React.memo(function QRInputForm({
         <button
           onClick={onGenerate}
           disabled={!canGenerate}
-          className={`w-full h-12 rounded-md text-sm font-medium transition-all cursor-pointer ${
+          className={`w-full h-12 rounded-md text-sm font-medium transition-all ${
             canGenerate
-              ? "bg-teal-500 text-white hover:bg-teal-600 hover:shadow-md transform hover:scale-[1.02]"
+              ? "bg-teal-500 text-white hover:bg-teal-600 hover:shadow-md transform hover:scale-[1.02] cursor-pointer"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
         >
