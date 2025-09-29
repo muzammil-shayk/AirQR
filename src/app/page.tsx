@@ -72,7 +72,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-8">
         <div className="mx-auto max-w-6xl">
           {/* Hero Section */}
           <div className="text-center mb-12">
@@ -87,10 +87,10 @@ export default function Home() {
           </div>
 
           {/* Main Content */}
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="w-full max-w-4xl mx-auto grid gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Input Form */}
-            <div className="space-y-6">
-              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="w-full max-w-sm mx-auto sm:max-w-md lg:max-w-none lg:mx-0 space-y-6">
+              <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold mb-2 text-black">
                     Configure QR Code
@@ -108,8 +108,8 @@ export default function Home() {
             </div>
 
             {/* QR Display */}
-            <div className="space-y-6">
-              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="w-full max-w-sm mx-auto sm:max-w-md lg:max-w-none lg:mx-0 space-y-6">
+              <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold mb-2 text-black">
                     Preview & Download
