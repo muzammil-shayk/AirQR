@@ -23,27 +23,6 @@ export async function generateQRCode(options: {
   }
 }
 
-export async function generateQRCodeSVG(options: {
-  text: string;
-}): Promise<string> {
-  try {
-    const qrOptions: QRCode.QRCodeToStringOptions = {
-      errorCorrectionLevel: "M", // Fixed error correction
-      margin: 4, // Fixed margin
-      color: {
-        dark: "#000000", // Fixed colors
-        light: "#FFFFFF",
-      },
-      width: 256, // Fixed size
-    };
-
-    return await QRCode.toString(options.text, { ...qrOptions, type: "svg" });
-  } catch (error) {
-    console.error("Error generating QR code SVG:", error);
-    throw new Error("Failed to generate QR code SVG");
-  }
-}
-
 export function downloadQRCode(
   dataUrl: string,
   filename: string,

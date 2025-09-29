@@ -104,7 +104,6 @@ export function QRDisplay({
     const sanitizedText = sanitizeInput(options.text);
     if (!sanitizedText || !qrDataUrl) return;
 
-    // Never copy WiFi credentials
     if (sanitizedText.startsWith("WIFI:")) return;
 
     try {
