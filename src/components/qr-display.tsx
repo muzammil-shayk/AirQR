@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Download, Copy, Share2 } from "lucide-react";
+import { Download, Copy } from "lucide-react";
 import { QRCodeOptions } from "@/types/qr";
 import {
   generateQRCode,
@@ -96,29 +96,6 @@ export function QRDisplay({
     }
   }, [options.text]);
 
-  const handleShare = useCallback(async () => {
-    if (!qrDataUrl) return;
-
-    try {
-      if (navigator.share) {
-        const blob = await fetch(qrDataUrl).then((r) => r.blob());
-        const file = new File([blob], "qr-code.png", { type: "image/png" });
-        await navigator.share({
-          files: [file],
-          title: "QR Code",
-          text: "Generated QR Code",
-        });
-      } else {
-        // Fallback to copying the data URL
-        await navigator.clipboard.writeText(qrDataUrl);
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000);
-      }
-    } catch {
-      setError("Failed to share QR code");
-    }
-  }, [qrDataUrl]);
-
   return (
     <div className="space-y-6">
       {/* QR Code Display */}
@@ -168,7 +145,7 @@ export function QRDisplay({
       {/* Action Buttons */}
       {qrDataUrl && !isGenerating && (
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleDownload}
               className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
@@ -183,20 +160,11 @@ export function QRDisplay({
               <Copy className="h-4 w-4" />
               {copySuccess ? "Copied!" : "Copy Text"}
             </button>
-            <button
-              onClick={handleShare}
-              className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-teal-50 hover:border-teal-300 hover:text-teal-600 cursor-pointer"
-            >
-              <Share2 className="h-4 w-4" />
-              Share
-            </button>
           </div>
 
           {/* QR Code Details */}
           <div className="rounded-md bg-gray-50 p-3">
-            <p className="text-xs text-gray-600">
-              Size: 256×256px • Error Correction: Medium
-            </p>
+            <p className="text-xs text-gray-600">Size: 256×256px</p>
             <p className="text-xs text-gray-500 mt-1 break-all">
               Content: {sanitizeInput(options.text)}
             </p>

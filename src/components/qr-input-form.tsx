@@ -49,9 +49,17 @@ export const QRInputForm = React.memo(function QRInputForm({
       setSelectedType(typeId);
       const type = QR_CODE_TYPES.find((t) => t.id === typeId);
       if (type) {
+        // Pre-fill with skeleton for wifi and vcard, keep existing text for text type
+        let newText = "";
+        if (type.id === "text") {
+          newText = options.text;
+        } else if (type.skeleton) {
+          newText = type.skeleton;
+        }
+
         onOptionsChange({
           ...options,
-          text: type.id === "text" ? options.text : "",
+          text: newText,
         });
       }
     },

@@ -8,6 +8,7 @@ export interface QRCodeType {
   icon: string;
   description: string;
   placeholder: string;
+  skeleton?: string;
   validation?: (value: string) => boolean;
   format?: (value: string) => string;
 }
@@ -48,15 +49,20 @@ export const QR_CODE_TYPES: QRCodeType[] = [
     id: "wifi",
     name: "WiFi",
     icon: "Wifi",
-    description: "WiFi network credentials",
+    description:
+      "WiFi network credentials - Replace the values below with your actual WiFi details",
     placeholder: "WIFI:T:WPA;S:NetworkName;P:Password;H:false;;",
+    skeleton: "WIFI:T:WPA;S:YourNetworkName;P:YourPassword;H:false;;",
   },
   {
     id: "vcard",
     name: "vCard",
     icon: "User",
-    description: "Contact information",
-    placeholder: "BEGIN:VCARD\nVERSION:3.0\nFN:John Doe\nEND:VCARD",
+    description:
+      "Contact information - Replace the values below with your actual details",
+    placeholder: "BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nEND:VCARD",
+    skeleton:
+      "BEGIN:VCARD\nVERSION:3.0\nFN:Your Full Name\nORG:Your Company\nTITLE:Your Job Title\nTEL:+1234567890\nEMAIL:your@email.com\nURL:https://yourwebsite.com\nADR:;;Street Address;City;State;Zip;Country\nEND:VCARD",
   },
 ];
 
