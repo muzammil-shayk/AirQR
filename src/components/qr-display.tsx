@@ -26,6 +26,15 @@ export function QRDisplay({
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(512);
+
+  // Available QR code sizes
+  const sizeOptions = [
+    { value: 256, label: "256×256 (Small)" },
+    { value: 512, label: "512×512 (Medium)" },
+    { value: 1024, label: "1024×1024 (Large)" },
+    { value: 2048, label: "2048×2048 (Extra Large)" },
+  ];
 
   const handleGenerate = useCallback(async () => {
     const sanitizedText = sanitizeInput(options.text);
@@ -74,14 +83,22 @@ export function QRDisplay({
     if (!qrDataUrl) return;
 
     try {
-      const filename = `qr-code-${Date.now()}`;
-      downloadQRCode(qrDataUrl, filename, "png");
+      const sanitizedText = sanitizeInput(options.text);
+
+      // Generate high-resolution QR code for download
+      const highResDataUrl = await generateQRCode({
+        text: sanitizedText,
+        width: selectedSize,
+      });
+
+      const filename = `qr-code-${selectedSize}x${selectedSize}-${Date.now()}`;
+      downloadQRCode(highResDataUrl, filename, "png");
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Failed to download QR code"
       );
     }
-  }, [qrDataUrl]);
+  }, [qrDataUrl, options.text, selectedSize]);
 
   const handleCopy = useCallback(async () => {
     const sanitizedText = sanitizeInput(options.text);
@@ -145,6 +162,28 @@ export function QRDisplay({
       {/* Action Buttons */}
       {qrDataUrl && !isGenerating && (
         <div className="space-y-4">
+          {/* Size Selector */}
+          <div className="space-y-2">
+            <label
+              htmlFor="qr-size"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Download Size
+            </label>
+            <select
+              id="qr-size"
+              value={selectedSize}
+              onChange={(e) => setSelectedSize(Number(e.target.value))}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+            >
+              {sizeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleDownload}
@@ -164,7 +203,9 @@ export function QRDisplay({
 
           {/* QR Code Details */}
           <div className="rounded-md bg-gray-50 p-3">
-            <p className="text-xs text-gray-600">Size: 256×256px</p>
+            <p className="text-xs text-gray-600">
+              Display: 256×256px • Download: {selectedSize}×{selectedSize}px
+            </p>
             <p className="text-xs text-gray-500 mt-1 break-all">
               Content: {sanitizeInput(options.text)}
             </p>

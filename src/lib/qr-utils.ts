@@ -3,6 +3,7 @@ import { saveAs } from "file-saver";
 
 export async function generateQRCode(options: {
   text: string;
+  width?: number;
 }): Promise<string> {
   try {
     const qrOptions: QRCode.QRCodeToDataURLOptions = {
@@ -12,7 +13,7 @@ export async function generateQRCode(options: {
         dark: "#000000", // Fixed colors
         light: "#FFFFFF",
       },
-      width: 256, // Fixed size
+      width: options.width || 256, // Configurable size with default
     };
 
     return await QRCode.toDataURL(options.text, qrOptions);
