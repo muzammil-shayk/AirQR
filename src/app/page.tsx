@@ -83,8 +83,9 @@ export default function Home() {
               </span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl mx-auto">
-              Generate WiFi, vCard, URL & text QR codes instantly. No
-              registration, no data collection, works offline. The fastest &
+              Generate WiFi, vCard, URL & text QR codes instantly.
+              <br />
+              No registration, no data collection, works offline. The fastest &
               most lightweight QR generator for on-the-go use.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-500">

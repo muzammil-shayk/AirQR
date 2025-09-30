@@ -65,7 +65,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
     if (data.phone) {
       vCard += `TEL:${data.phone}\n`;
     }
-    if (data.email) {
+    if (data.email && !data.email.endsWith("@example.com")) {
       vCard += `EMAIL:${data.email}\n`;
     }
     if (data.website) {
@@ -111,7 +111,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               htmlFor="firstName"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              First Name *
+              First Name <span className="text-red-500">*</span>
             </label>
             <input
               id="firstName"
@@ -128,7 +128,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               htmlFor="lastName"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Last Name *
+              Last Name <span className="text-red-500">*</span>
             </label>
             <input
               id="lastName"
@@ -185,7 +185,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               htmlFor="phone"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Phone Number
+              Phone Number <span className="text-red-500">*</span>
             </label>
             <input
               id="phone"
@@ -193,6 +193,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
               placeholder="+1234567890"
+              maxLength={17}
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
           </div>
@@ -267,7 +268,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.city}
                 onChange={(e) => handleChange("city", e.target.value)}
-                placeholder="New York"
+                placeholder="Dallas"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
             </div>
@@ -284,7 +285,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.state}
                 onChange={(e) => handleChange("state", e.target.value)}
-                placeholder="NY"
+                placeholder="TX"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
             </div>
