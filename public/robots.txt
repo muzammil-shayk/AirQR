@@ -1,0 +1,43 @@
+# robots.txt for AirQR - Free Lightweight QR Code Generator
+# This file provides instructions for web crawlers
+
+# Group for all web crawlers (most specific group first)
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /_next/image/
+Disallow: /admin/
+Disallow: /private/
+
+# Group for Googlebot (Google's web crawler)
+User-agent: Googlebot
+Allow: /
+Allow: /sitemap.xml
+Allow: /favicon.ico
+Allow: /*.png$
+Allow: /*.svg$
+Allow: /*.webmanifest$
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /_next/image/
+
+# Group for Bingbot (Bing's web crawler)
+User-agent: Bingbot  
+Allow: /
+Allow: /sitemap.xml
+Disallow: /api/
+Disallow: /_next/
+
+# Group for bad bots (block completely)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap location (required)
+Sitemap: https://airqr.vercel.app/sitemap.xml
