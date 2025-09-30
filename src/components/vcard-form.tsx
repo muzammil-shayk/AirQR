@@ -37,6 +37,8 @@ export function VCardForm({ onChange }: VCardFormProps) {
     country: "",
   });
 
+  const [emailError, setEmailError] = useState<string>("");
+
   const generateVCardString = useCallback((data: VCardFormData) => {
     let vCard = "BEGIN:VCARD\nVERSION:3.0\n";
 
@@ -65,7 +67,11 @@ export function VCardForm({ onChange }: VCardFormProps) {
     if (data.phone) {
       vCard += `TEL:${data.phone}\n`;
     }
-    if (data.email && !data.email.endsWith("@example.com")) {
+    if (
+      data.email &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) &&
+      !data.email.endsWith("@example.com")
+    ) {
       vCard += `EMAIL:${data.email}\n`;
     }
     if (data.website) {
@@ -87,6 +93,18 @@ export function VCardForm({ onChange }: VCardFormProps) {
     (field: keyof VCardFormData, value: string) => {
       const newData = { ...formData, [field]: value };
       setFormData(newData);
+
+      // Validate email
+      if (field === "email") {
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          setEmailError("Invalid email format");
+        } else if (value && value.endsWith("@example.com")) {
+          setEmailError("Please enter a valid email address");
+        } else {
+          setEmailError("");
+        }
+      }
+
       onChange(generateVCardString(newData));
     },
     [formData, onChange, generateVCardString]
@@ -213,6 +231,9 @@ export function VCardForm({ onChange }: VCardFormProps) {
               placeholder="john@example.com"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
+            {emailError && (
+              <p className="text-sm text-red-600 mt-1">{emailError}</p>
+            )}
           </div>
         </div>
 
