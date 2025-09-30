@@ -122,7 +122,7 @@ export default function RootLayout({
         {/* Google Search Console Verification */}
         <meta
           name="google-site-verification"
-          content="7honvn0dgFWnUZfMjEA7Fi1Y011qKHV_K---e_oVK6c"
+          content="sQvmL0WADTzA0_IXlqlnFwWW2QberYsEZXoWkgY2eH0"
         />
 
         {/* Canonical URL */}
