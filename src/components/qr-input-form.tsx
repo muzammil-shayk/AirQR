@@ -73,7 +73,8 @@ export const QRInputForm = React.memo(function QRInputForm({
 
   const currentDisplayText = useMemo(() => {
     if (selectedType === "text") return options.text;
-    if (selectedQRType?.format) return options.text.replace(/^[^:]+:/, "");
+    if (selectedType === "email" && selectedQRType?.format)
+      return options.text.replace(/^[^:]+:/, "");
     return options.text;
   }, [selectedType, options.text, selectedQRType]);
 
@@ -160,6 +161,12 @@ export const QRInputForm = React.memo(function QRInputForm({
           </div>
         ) : (
           <div className="space-y-2">
+            {selectedType === "url" && (
+              <p className="text-sm text-gray-600">
+                You can enter URLs with or without https:// - we will add it
+                automatically if needed.
+              </p>
+            )}
             <input
               id="qr-text"
               type="text"

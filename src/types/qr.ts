@@ -36,6 +36,12 @@ export const QR_CODE_TYPES: QRCodeType[] = [
         return false;
       }
     },
+    format: (value: string) => {
+      if (!value.trim()) return value;
+      if (value.startsWith("http://") || value.startsWith("https://"))
+        return value;
+      return "https://" + value;
+    },
   },
   {
     id: "email",
