@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
         const height = parseInt(viewBoxMatch[2]);
         // Size-relative positioning and font size
         // We use similar ratios to the canvas-based generator
-        fontSize = Math.max(0.5, width / 32); 
+        fontSize = Math.max(0.5, width / 24); 
         x = width - (width / 60);
         y = height - (height / 60);
       }

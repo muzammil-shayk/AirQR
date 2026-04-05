@@ -26,7 +26,7 @@ export async function generateQRCode(options: {
     // Add watermark
     const ctx = canvas.getContext("2d");
     if (ctx) {
-      ctx.font = `${Math.max(10, size / 32)}px Arial`;
+      ctx.font = `${Math.max(10, size / 24)}px Arial`;
       ctx.fillStyle = "rgba(0,0,0,0.4)";
       ctx.textAlign = "right";
       ctx.textBaseline = "bottom";
