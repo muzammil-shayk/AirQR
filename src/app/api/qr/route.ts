@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const rawData = searchParams.get('data');
   const type = searchParams.get('type');
-  const margin = searchParams.get('margin') || '2';
+  const margin = searchParams.get('margin') || '4';
   const colorDark = searchParams.get('color') || '#000000';
   const colorLight = searchParams.get('bg') || '#ffffff';
   
@@ -75,9 +75,9 @@ export async function GET(request: NextRequest) {
         const height = parseInt(viewBoxMatch[2]);
         // Size-relative positioning and font size
         // We use similar ratios to the canvas-based generator
-        fontSize = Math.max(0.5, width / 24); 
-        x = width - (width / 60);
-        y = height - (height / 60);
+        fontSize = Math.max(0.5, width / 26); 
+        x = width - (width / 80);
+        y = height - (height / 100);
       }
 
       const watermarkSvg = `  <text x="${x}" y="${y}" font-family="Arial, sans-serif" font-size="${fontSize}" fill="${colorDark}" opacity="0.5" text-anchor="end">${watermarkText}</text>\n`;
