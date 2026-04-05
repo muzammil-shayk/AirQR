@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { QrCode, Github, Heart, Linkedin, User } from "lucide-react";
+import { QrCode, Heart, User } from "lucide-react";
+import { LuGithub as Github, LuLinkedin as Linkedin } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 import { QRDisplay } from "@/components/qr-display";

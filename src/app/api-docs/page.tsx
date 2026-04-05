@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Github, Linkedin, User, Copy, Check, Terminal, Wifi, Mail, MessageSquare, Phone } from "lucide-react";
+import { User, Copy, Check, Terminal, Wifi, Mail, MessageSquare, Phone } from "lucide-react";
+import { LuGithub as Github, LuLinkedin as Linkedin } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 
