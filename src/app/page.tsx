@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { QrCode, Github, Heart, Linkedin, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { QRDisplay } from "@/components/qr-display";
 import { QRInputForm } from "@/components/qr-input-form";
 import { QRCodeOptions, DEFAULT_QR_OPTIONS } from "@/types/qr";
@@ -39,7 +40,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-gray-700">
+            <Link
+              href="/api-docs"
+              className="mr-2 inline-flex h-10 items-center justify-center rounded-md border border-teal-200 bg-teal-50 px-4 text-sm font-medium transition-colors hover:bg-teal-100 text-teal-700 cursor-pointer"
+            >
+              API & Developer Docs
+            </Link>
             <a
               href="https://github.com/muzammil-shayk"
               target="_blank"

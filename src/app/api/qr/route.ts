@@ -1,0 +1,81 @@
+import { NextRequest, NextResponse } from 'next/server';
+import QRCode from 'qrcode';
+
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const rawData = searchParams.get('data');
+  const type = searchParams.get('type');
+  const margin = searchParams.get('margin') || '2';
+  const colorDark = searchParams.get('color') || '#000000';
+  const colorLight = searchParams.get('bg') || '#ffffff';
+  
+  let formattedData = rawData;
+
+  // If a specific type is requested, format the data string accordingly
+  if (type) {
+    if (type === 'wifi') {
+      const ssid = searchParams.get('ssid');
+      const password = searchParams.get('password') || '';
+      const encryption = searchParams.get('encryption') || 'WPA'; // WPA, WEP, or nopass
+      if (!ssid) return NextResponse.json({ error: 'Missing "ssid" for wifi type' }, { status: 400 });
+      formattedData = `WIFI:T:${encryption};S:${ssid};P:${password};;`;
+    } 
+    else if (type === 'email') {
+      const email = searchParams.get('email');
+      const subject = searchParams.get('subject') || '';
+      const body = searchParams.get('body') || '';
+      if (!email) return NextResponse.json({ error: 'Missing "email" for email type' }, { status: 400 });
+      formattedData = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+    else if (type === 'sms') {
+      const phone = searchParams.get('phone');
+      const message = searchParams.get('message') || '';
+      if (!phone) return NextResponse.json({ error: 'Missing "phone" for sms type' }, { status: 400 });
+      formattedData = `smsto:${phone}:${message}`;
+    }
+    else if (type === 'phone' || type === 'tel') {
+      const phone = searchParams.get('phone');
+      if (!phone) return NextResponse.json({ error: 'Missing "phone" for phone type' }, { status: 400 });
+      formattedData = `tel:${phone}`;
+    }
+  }
+
+  if (!formattedData) {
+    return NextResponse.json(
+      { error: 'Missing "data" query parameter or valid "type" configuration.' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    // Generate SVG string (fast and universally supported)
+    const svgString = await QRCode.toString(formattedData, {
+      type: 'svg',
+      margin: parseInt(margin as string),
+      color: {
+        dark: colorDark,
+        light: colorLight,
+      },
+      // H ensures resilience when scaling
+      errorCorrectionLevel: 'H',
+    });
+
+    return new NextResponse(svgString, {
+      status: 200,
+      headers: {
+        'Content-Type': 'image/svg+xml',
+        // Set strong caching for the same QR code data
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        // Provide CORS support for external consumers
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      },
+    });
+  } catch (error) {
+    console.error('Error generating QR code:', error);
+    return NextResponse.json(
+      { error: 'Failed to generate QR code' },
+      { status: 500 }
+    );
+  }
+}
