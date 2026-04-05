@@ -277,7 +277,7 @@ export default function Home() {
             Privacy-First • Lightweight • Secure • Fast QR Generation
           </p>
           <p className="text-xs text-gray-500">
-            © 2025 AirQR by M. Muzammil. All Rights Reserved.
+            © 2026 AirQR by M. Muzammil. All Rights Reserved.
           </p>
         </div>
       </footer>
