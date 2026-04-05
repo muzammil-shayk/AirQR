@@ -11,15 +11,27 @@ interface WiFiFormData {
 
 interface WiFiFormProps {
   onChange: (wifiString: string) => void;
+  onGenerate?: () => void;
 }
 
-export function WiFiForm({ onChange }: WiFiFormProps) {
+export function WiFiForm({ onChange, onGenerate }: WiFiFormProps) {
   const [formData, setFormData] = useState<WiFiFormData>({
     ssid: "",
     password: "",
     security: "WPA",
     hidden: false,
   });
+
+  const canGenerate = formData.ssid.trim().length > 0;
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter" && onGenerate && canGenerate) {
+        onGenerate();
+      }
+    },
+    [onGenerate, canGenerate]
+  );
 
   const generateWiFiString = useCallback((data: WiFiFormData) => {
     return `WIFI:T:${data.security};S:${data.ssid};P:${data.password};H:${data.hidden};;`;
@@ -56,6 +68,7 @@ export function WiFiForm({ onChange }: WiFiFormProps) {
             type="text"
             value={formData.ssid}
             onChange={(e) => handleChange("ssid", e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Your WiFi Network Name"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             required
@@ -74,6 +87,7 @@ export function WiFiForm({ onChange }: WiFiFormProps) {
             type="password"
             value={formData.password}
             onChange={(e) => handleChange("password", e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="WiFi Password (leave empty for open network)"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             autoComplete="new-password"

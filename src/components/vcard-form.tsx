@@ -19,9 +19,10 @@ interface VCardFormData {
 
 interface VCardFormProps {
   onChange: (vCardString: string) => void;
+  onGenerate?: () => void;
 }
 
-export function VCardForm({ onChange }: VCardFormProps) {
+export function VCardForm({ onChange, onGenerate }: VCardFormProps) {
   const [formData, setFormData] = useState<VCardFormData>({
     firstName: "",
     lastName: "",
@@ -36,6 +37,20 @@ export function VCardForm({ onChange }: VCardFormProps) {
     zip: "",
     country: "",
   });
+
+  const canGenerate =
+    formData.firstName.trim().length > 0 &&
+    formData.lastName.trim().length > 0 &&
+    formData.phone.trim().length > 0;
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter" && onGenerate && canGenerate) {
+        onGenerate();
+      }
+    },
+    [onGenerate, canGenerate]
+  );
 
   const [emailError, setEmailError] = useState<string>("");
 
@@ -136,6 +151,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="text"
               value={formData.firstName}
               onChange={(e) => handleChange("firstName", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="John"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               required
@@ -153,6 +169,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="text"
               value={formData.lastName}
               onChange={(e) => handleChange("lastName", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Doe"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               required
@@ -174,6 +191,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="text"
               value={formData.organization}
               onChange={(e) => handleChange("organization", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Your Company"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
@@ -191,6 +209,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="text"
               value={formData.title}
               onChange={(e) => handleChange("title", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Software Developer"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
@@ -210,6 +229,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="+1234567890"
               maxLength={17}
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
@@ -228,6 +248,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="email"
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="john@example.com"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
@@ -249,6 +270,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
             type="url"
             value={formData.website}
             onChange={(e) => handleChange("website", e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="https://yourwebsite.com"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
           />
@@ -271,6 +293,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
               type="text"
               value={formData.street}
               onChange={(e) => handleChange("street", e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="123 Main Street"
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
@@ -289,6 +312,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.city}
                 onChange={(e) => handleChange("city", e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Dallas"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
@@ -306,6 +330,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.state}
                 onChange={(e) => handleChange("state", e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="TX"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
@@ -323,6 +348,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.zip}
                 onChange={(e) => handleChange("zip", e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="10001"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
@@ -340,6 +366,7 @@ export function VCardForm({ onChange }: VCardFormProps) {
                 type="text"
                 value={formData.country}
                 onChange={(e) => handleChange("country", e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="USA"
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />

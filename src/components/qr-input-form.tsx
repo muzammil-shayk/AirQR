@@ -66,6 +66,7 @@ export const QRInputForm = React.memo(function QRInputForm({
     },
     [options, onOptionsChange]
   );
+
   const selectedQRType = useMemo(
     () => QR_CODE_TYPES.find((type) => type.id === selectedType),
     [selectedType]
@@ -92,6 +93,15 @@ export const QRInputForm = React.memo(function QRInputForm({
     // For other types, check if there's any content
     return currentDisplayText.trim().length > 0;
   }, [selectedType, options.text, currentDisplayText]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && canGenerate) {
+        onGenerate();
+      }
+    },
+    [onGenerate, canGenerate]
+  );
 
   return (
     <div className="space-y-6">
@@ -141,6 +151,7 @@ export const QRInputForm = React.memo(function QRInputForm({
                   text: wifiString,
                 });
               }}
+              onGenerate={onGenerate}
             />
           </div>
         ) : selectedType === "vcard" ? (
@@ -157,6 +168,7 @@ export const QRInputForm = React.memo(function QRInputForm({
                   text: vCardString,
                 });
               }}
+              onGenerate={onGenerate}
             />
           </div>
         ) : (
@@ -173,6 +185,7 @@ export const QRInputForm = React.memo(function QRInputForm({
               placeholder={selectedQRType?.placeholder}
               value={currentDisplayText}
               onChange={(e) => handleTextChange(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="flex h-12 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-teal-500"
             />
             {selectedQRType?.validation &&
