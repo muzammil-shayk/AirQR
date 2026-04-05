@@ -274,7 +274,13 @@ export default function Home() {
             </a>
           </p>
           <p className="text-xs text-gray-400 mb-2">
-            Privacy-First • Lightweight • Secure • Fast QR Generation
+            Privacy-First • Lightweight • Secure • Fast QR Generation •{" "}
+            <Link
+              href="/api-docs"
+              className="text-teal-600 hover:outline-none hover:underline font-medium"
+            >
+              Developer API
+            </Link>
           </p>
           <p className="text-xs text-gray-500">
             © 2026 AirQR by M. Muzammil. All Rights Reserved.
