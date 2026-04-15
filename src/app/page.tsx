@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { QrCode, Heart, User } from "lucide-react";
+import { QrCode, Heart, User, Terminal } from "lucide-react";
 import { LuGithub as Github, LuLinkedin as Linkedin } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,9 +44,11 @@ export default function Home() {
           <div className="flex items-center gap-2 text-gray-700">
             <Link
               href="/api-docs"
-              className="mr-2 inline-flex h-10 items-center justify-center rounded-md border border-teal-200 bg-teal-50 px-4 text-sm font-medium transition-colors hover:bg-teal-100 text-teal-700 cursor-pointer"
+              className="inline-flex h-10 sm:w-auto w-10 items-center justify-center rounded-md border border-teal-200 bg-teal-50 sm:px-4 text-sm font-medium transition-colors hover:bg-teal-100 text-teal-700 cursor-pointer"
+              title="API & Developer Docs"
             >
-              API & Developer Docs
+              <Terminal className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">API & Developer Docs</span>
             </Link>
             <a
               href="https://github.com/muzammil-shayk"
