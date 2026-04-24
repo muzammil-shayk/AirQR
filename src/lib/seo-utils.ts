@@ -120,7 +120,7 @@ export function generateQRStructuredData() {
     author: {
       "@type": "Person",
       name: "Muhammad Muzammil",
-      url: "https://m-muzammil.vercel.app",
+      url: "https://m-muzammil.dev",
     },
     publisher: {
       "@type": "Person",

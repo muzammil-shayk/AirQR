@@ -37,9 +37,7 @@ export const metadata: Metadata = {
     "portable QR tool",
     "Muhammad Muzammil",
   ],
-  authors: [
-    { name: "Muhammad Muzammil", url: "https://m-muzammil.vercel.app" },
-  ],
+  authors: [{ name: "Muhammad Muzammil", url: "https://m-muzammil.dev" }],
   creator: "Muhammad Muzammil",
   publisher: "Muhammad Muzammil",
   robots: "index, follow",
@@ -164,12 +162,12 @@ export default function RootLayout({
               author: {
                 "@type": "Person",
                 name: "Muhammad Muzammil",
-                url: "https://m-muzammil.vercel.app",
+                url: "https://m-muzammil.dev",
               },
               creator: {
                 "@type": "Person",
                 name: "Muhammad Muzammil",
-                url: "https://m-muzammil.vercel.app",
+                url: "https://m-muzammil.dev",
               },
               featureList: [
                 "Generate WiFi QR codes",

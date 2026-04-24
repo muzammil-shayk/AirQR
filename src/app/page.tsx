@@ -69,7 +69,7 @@ export default function Home() {
               <Linkedin className="h-4 w-4" />
             </a>
             <a
-              href="https://m-muzammil.vercel.app"
+              href="https://m-muzammil.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white text-sm font-medium transition-colors hover:bg-teal-50 hover:text-teal-600 hover:border-teal-300 cursor-pointer"
@@ -255,7 +255,7 @@ export default function Home() {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="https://m-muzammil.vercel.app"
+              href="https://m-muzammil.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-teal-600 transition-colors"
@@ -267,7 +267,7 @@ export default function Home() {
           <p className="text-sm mb-2">
             Free QR Code Generator - No Registration Required | Built by{" "}
             <a
-              href="https://m-muzammil.vercel.app"
+              href="https://m-muzammil.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-teal-600 hover:underline"
